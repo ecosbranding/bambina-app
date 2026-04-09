@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bambina - Aprende Jugando</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Paleta Bambina personalizada */
+        :root {
+            --bambina-purple: #6A1B9A;
+            --bambina-lila: #F3E5F5;
+            --bambina-accent: #AB47BC;
+        }
+        body { background-color: var(--bambina-lila); -webkit-tap-highlight-color: transparent; }
+        .game-card { transition: transform 0.2s; border-radius: 2rem; }
+        .game-card:active { transform: scale(0.95); }
+    </style>
+</head>
+<body class="font-sans">
+
+    <header class="p-6 text-center">
+        <h1 class="text-5xl font-bold text-[#6A1B9A] mb-2">Bambina</h1>
+        <p class="text-[#AB47BC] font-medium uppercase tracking-widest text-sm">Suite Educativa</p>
+    </header>
+
+    <main id="main-menu" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-6">
+        </main>
+
+    <div id="game-overlay" class="fixed inset-0 bg-[#F3E5F5] hidden flex-col items-center p-6">
+        <button onclick="closeGame()" class="self-start text-[#6A1B9A] text-xl font-bold mb-8">← Volver</button>
+        <div id="game-content" class="w-full flex-grow flex items-center justify-center"></div>
+    </div>
+
+    <script>
+        const games = [
+            { id: 1, title: 'Números 1-10', icon: '1️⃣', color: 'bg-[#AB47BC]' },
+            { id: 2, title: 'Granja Sonora', icon: '🐶', color: 'bg-[#6A1B9A]' },
+            { id: 3, title: 'Xilófono', icon: '🎹', color: 'bg-[#CE93D8]' },
+            { id: 4, title: 'Peek-a-boo', icon: '🙈', color: 'bg-[#AB47BC]' },
+            { id: 5, title: 'Pintura', icon: '🎨', color: 'bg-[#6A1B9A]' },
+            { id: 6, title: 'Formas', icon: '🟦', color: 'bg-[#CE93D8]' },
+            { id: 7, title: 'Colores', icon: '🌈', color: 'bg-[#AB47BC]' },
+            { id: 8, title: 'Mi Cuerpo', icon: '👶', color: 'bg-[#6A1B9A]' },
+            { id: 9, title: 'Vehículos', icon: '🚀', color: 'bg-[#CE93D8]' },
+            { id: 10, title: 'Frutas', icon: '🍎', color: 'bg-[#AB47BC]' },
+            { id: 11, title: 'Emociones', icon: '😊', color: 'bg-[#6A1B9A]' },
+            { id: 12, title: 'Hábitos', icon: '🧼', color: 'bg-[#CE93D8]' },
+            { id: 13, title: 'El Clima', icon: '☁️', color: 'bg-[#AB47BC]' },
+            { id: 14, title: 'Armario', icon: '👕', color: 'bg-[#6A1B9A]' },
+            { id: 15, title: 'Sueño', icon: '🌙', color: 'bg-[#CE93D8]' }
+        ];
+
+        const menu = document.getElementById('main-menu');
+        const overlay = document.getElementById('game-overlay');
+        const content = document.getElementById('game-content');
+
+        // Renderizar Menú
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = `${game.color} game-card p-6 shadow-xl flex flex-col items-center justify-center cursor-pointer text-white`;
+            card.innerHTML = `
+                <span class="text-5xl mb-3">${game.icon}</span>
+                <span class="font-bold text-center text-sm">${game.title}</span>
+            `;
+            card.onclick = () => openGame(game);
+            menu.appendChild(card);
+        });
+
+        function openGame(game) {
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            
+            // Lógica simple para cargar contenido
+            content.innerHTML = `
+                <div class="text-center">
+                    <span class="text-9xl mb-4 block animate-bounce">${game.icon}</span>
+                    <h2 class="text-3xl font-bold text-[#6A1B9A]">${game.title}</h2>
+                    <p class="mt-4 text-[#AB47BC]">Toca para escuchar el sonido</p>
+                    <button onclick="playDummySound('${game.title}')" class="mt-8 bg-[#6A1B9A] text-white px-8 py-3 rounded-full font-bold">JUGAR</button>
+                </div>
+            `;
+        }
+
+        function closeGame() {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+        }
+
+        function playDummySound(name) {
+            // Aquí se conectarán tus archivos .mp3
+            console.log("Reproduciendo sonido de: " + name);
+            // new Audio(`assets/audio/${name.toLowerCase()}.mp3`).play();
+        }
+    </script>
+</body>
+</html>
