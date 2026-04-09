@@ -3,107 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="manifest" href="manifest.json">
     <title>Bambina - ¡A jugar!</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bambina-purple: #6A1B9A;
-            --bambina-lila: #F3E5F5;
-        }
         body { 
             font-family: 'Quicksand', sans-serif; 
-            background-color: var(--bambina-lila);
+            background-color: #F3E5F5; 
             margin: 0;
-            padding: 0;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
-        .game-card { 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-bottom: 8px solid rgba(0,0,0,0.1);
+        /* Header minimalista para resaltar el logo */
+        .header-container {
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #E1BEE7;
         }
-        .game-card:active { transform: scale(0.92); border-bottom-width: 2px; margin-top: 6px; }
-        
-        /* Contenedor del Logo Horizontal */
-        .header-logo {
-            max-width: 280px;
+        .main-logo {
+            max-width: 280px; /* Tamaño ideal para el logo horizontal */
             height: auto;
-            display: block;
             margin: 0 auto;
+            display: block;
         }
+        .slogan {
+            color: #AB47BC;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-style: italic;
+            margin-top: 15px;
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+        .card {
+            height: 160px;
+            border-radius: 40px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(106, 27, 154, 0.1);
+            color: white;
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s;
+        }
+        .card:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-    <header class="p-6 text-center bg-white/40 backdrop-blur-md sticky top-0 z-10 border-b border-purple-100">
-        <img src="assets/images/logo-bambina-horizontal.png" alt="Bambina Logo" class="header-logo">
-        <p class="text-[#AB47BC] font-bold text-lg italic mt-2">¡A jugar con tu bebé!</p>
+    <header class="header-container">
+        <img src="1000778888.png" alt="Bambina" class="main-logo" onerror="this.src='https://via.placeholder.com/280x100?text=Error:+Usa+1000778888.png'">
+        <p class="slogan">¡A jugar con tu bebé!</p>
     </header>
 
-    <main id="main-menu" class="grid grid-cols-2 sm:grid-cols-3 gap-5 p-5 pb-24">
-        </main>
+    <div class="game-grid">
+        <div class="card" style="background-color: #AB47BC;">Números 1-10</div>
+        <div class="card" style="background-color: #6A1B9A;">Granja Sonora</div>
+        <div class="card" style="background-color: #CE93D8;">Xilófono</div>
+        <div class="card" style="background-color: #AB47BC;">Peek-a-boo</div>
+        <div class="card" style="background-color: #6A1B9A;">Pintura</div>
+        <div class="card" style="background-color: #CE93D8;">Formas</div>
+    </div>
 
-    <div id="game-overlay" class="fixed inset-0 bg-[#F3E5F5] hidden flex-col items-center z-50 p-6 overflow-y-auto">
-        <div class="w-full flex justify-between items-center mb-8">
-            <button onclick="closeGame()" class="bg-white p-4 rounded-full shadow-lg text-[#6A1B9A] font-bold text-xl active:scale-90">✕</button>
-            <img src="assets/images/logo-bambina-horizontal.png" class="h-8 opacity-60">
-            <div class="w-10"></div>
-        </div>
-
-        <div id="game-content" class="w-full max-w-md flex-grow flex flex-col items-center justify-center">
-            </div>
-    </main>
-
-    <script>
-        const games = [
-            { id: 'numeros', title: 'Números 1-10', color: 'bg-[#AB47BC]' },
-            { id: 'animales', title: 'Granja Sonora', color: 'bg-[#6A1B9A]' },
-            { id: 'xilofono', title: 'Xilófono', color: 'bg-[#CE93D8]' },
-            { id: 'escondite', title: 'Peek-a-boo', color: 'bg-[#AB47BC]' },
-            { id: 'pintura', title: 'Pintura', color: 'bg-[#6A1B9A]' },
-            { id: 'formas', title: 'Formas', color: 'bg-[#CE93D8]' },
-            { id: 'colores', title: 'Colores', color: 'bg-[#AB47BC]' },
-            { id: 'cuerpo', title: 'Mi Cuerpo', color: 'bg-[#6A1B9A]' }
-        ];
-
-        const menu = document.getElementById('main-menu');
-
-        games.forEach(game => {
-            const card = document.createElement('div');
-            card.className = `${game.color} game-card h-44 rounded-[3rem] shadow-lg flex flex-col items-center justify-end p-6 text-white`;
-            card.innerHTML = `
-                <span class="font-bold text-center text-[11px] uppercase tracking-widest leading-tight">${game.title}</span>
-            `;
-            card.onclick = () => openGame(game);
-            menu.appendChild(card);
-        });
-
-        function openGame(game) {
-            const overlay = document.getElementById('game-overlay');
-            const content = document.getElementById('game-content');
-            
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-
-            content.innerHTML = `
-                <div class="bg-white p-10 rounded-[4rem] shadow-2xl flex flex-col items-center border-4 border-purple-50 w-full animate-pop">
-                    <h2 class="text-3xl font-bold text-[#6A1B9A] mb-10">${game.title}</h2>
-                    <button class="bg-[#6A1B9A] text-white text-xl font-bold px-12 py-5 rounded-full shadow-xl active:scale-95">
-                        ¡COMENZAR!
-                    </button>
-                </div>
-            `;
-        }
-
-        function closeGame() {
-            const overlay = document.getElementById('game-overlay');
-            overlay.classList.add('hidden');
-            overlay.classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        }
-    </script>
 </body>
 </html>
