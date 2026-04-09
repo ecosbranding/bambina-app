@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bambina - ¡A jugar!</title>
+    <title>Bambina - Suite Educativa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <style>
@@ -13,16 +13,16 @@
             margin: 0;
             user-select: none;
         }
-        /* Header minimalista para resaltar el logo */
+        /* Header limpio con tu logo oficial */
         .header-container {
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(10px);
-            padding: 30px 20px;
+            padding: 25px 20px;
             text-align: center;
             border-bottom: 1px solid #E1BEE7;
         }
         .main-logo {
-            max-width: 280px; /* Tamaño ideal para el logo horizontal */
+            max-width: 260px; /* Tamaño optimizado para el logo horizontal */
             height: auto;
             margin: 0 auto;
             display: block;
@@ -32,48 +32,51 @@
             font-size: 1.1rem;
             font-weight: 700;
             font-style: italic;
-            margin-top: 15px;
+            margin-top: 12px;
         }
+        /* Grid de juegos estilo burbuja */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 16px;
             padding: 20px;
         }
         .card {
-            height: 160px;
-            border-radius: 40px;
+            height: 165px;
+            border-radius: 45px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
             padding-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(106, 27, 154, 0.1);
+            box-shadow: 0 10px 20px rgba(106, 27, 154, 0.1);
             color: white;
             text-decoration: none;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             transition: transform 0.2s;
         }
-        .card:active { transform: scale(0.95); }
+        .card:active { transform: scale(0.94); }
     </style>
 </head>
 <body>
 
     <header class="header-container">
-        <img src="1000778888.png" alt="Bambina" class="main-logo" onerror="this.src='https://via.placeholder.com/280x100?text=Error:+Usa+1000778888.png'">
+        <img src="1000778888.png" alt="Bambina" class="main-logo" onerror="this.src='https://via.placeholder.com/260x80?text=Sube+1000778888.png+a+la+raiz'">
         <p class="slogan">¡A jugar con tu bebé!</p>
     </header>
 
-    <div class="game-grid">
+    <main class="game-grid">
         <div class="card" style="background-color: #AB47BC;">Números 1-10</div>
         <div class="card" style="background-color: #6A1B9A;">Granja Sonora</div>
         <div class="card" style="background-color: #CE93D8;">Xilófono</div>
         <div class="card" style="background-color: #AB47BC;">Peek-a-boo</div>
         <div class="card" style="background-color: #6A1B9A;">Pintura</div>
         <div class="card" style="background-color: #CE93D8;">Formas</div>
-    </div>
+        <div class="card" style="background-color: #AB47BC;">Colores</div>
+        <div class="card" style="background-color: #6A1B9A;">Mi Cuerpo</div>
+    </main>
 
 </body>
 </html>
