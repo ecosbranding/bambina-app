@@ -15,69 +15,66 @@
         body { 
             font-family: 'Quicksand', sans-serif; 
             background-color: var(--bambina-lila);
+            margin: 0;
+            padding: 0;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
         .game-card { 
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-bottom: 8px solid rgba(0,0,0,0.15);
+            border-bottom: 8px solid rgba(0,0,0,0.1);
         }
         .game-card:active { transform: scale(0.92); border-bottom-width: 2px; margin-top: 6px; }
         
-        /* Ajuste para que el logo y nombre se vean perfectos */
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-        .logo-img {
-            width: 60px; /* Ajuste basado en tu logo del '8' */
-            height: 60px;
-            object-fit: contain;
+        /* Contenedor del Logo Horizontal */
+        .header-logo {
+            max-width: 280px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <header class="p-8 text-center bg-white/40 backdrop-blur-md sticky top-0 z-10 border-b border-purple-100">
-        <div class="logo-container mb-1">
-            <img src="assets/images/logo-bambina.png" alt="Icono Bambina" class="logo-img">
-            <h1 class="text-5xl font-bold text-[#6A1B9A]">bambina</h1>
-        </div>
-        <p class="text-[#AB47BC] font-medium text-lg italic">¡A jugar con tu bebé!</p>
+    <header class="p-6 text-center bg-white/40 backdrop-blur-md sticky top-0 z-10 border-b border-purple-100">
+        <img src="assets/images/logo-bambina-horizontal.png" alt="Bambina Logo" class="header-logo">
+        <p class="text-[#AB47BC] font-bold text-lg italic mt-2">¡A jugar con tu bebé!</p>
     </header>
 
-    <main id="main-menu" class="grid grid-cols-2 sm:grid-cols-3 gap-6 p-6 pb-24">
+    <main id="main-menu" class="grid grid-cols-2 sm:grid-cols-3 gap-5 p-5 pb-24">
         </main>
 
     <div id="game-overlay" class="fixed inset-0 bg-[#F3E5F5] hidden flex-col items-center z-50 p-6 overflow-y-auto">
-        <div class="w-full flex justify-between items-center mb-10">
-            <button onclick="closeGame()" class="bg-white p-4 rounded-full shadow-lg text-[#6A1B9A] font-bold text-2xl">✕</button>
-            <div id="game-title-header" class="text-[#6A1B9A] font-bold text-xl uppercase tracking-widest"></div>
-            <div class="w-12"></div>
+        <div class="w-full flex justify-between items-center mb-8">
+            <button onclick="closeGame()" class="bg-white p-4 rounded-full shadow-lg text-[#6A1B9A] font-bold text-xl active:scale-90">✕</button>
+            <img src="assets/images/logo-bambina-horizontal.png" class="h-8 opacity-60">
+            <div class="w-10"></div>
         </div>
-        <div id="game-content" class="w-full max-w-lg flex-grow flex flex-col items-center justify-center"></div>
-    </div>
+
+        <div id="game-content" class="w-full max-w-md flex-grow flex flex-col items-center justify-center">
+            </div>
+    </main>
 
     <script>
         const games = [
-            { id: 'animales', title: 'Granja Sonora', img: 'game-animales.png', color: 'bg-[#6A1B9A]' },
-            { id: 'numeros', title: 'Números 1-10', img: 'game-numeros.png', color: 'bg-[#AB47BC]' },
-            { id: 'xilofono', title: 'Xilófono', img: 'game-xilofono.png', color: 'bg-[#CE93D8]' },
-            { id: 'escondite', title: 'Peek-a-boo', img: 'game-escondite.png', color: 'bg-[#AB47BC]' },
-            { id: 'pintura', title: 'Pintura', img: 'game-pintura.png', color: 'bg-[#6A1B9A]' },
-            { id: 'formas', title: 'Formas', img: 'game-formas.png', color: 'bg-[#CE93D8]' }
+            { id: 'numeros', title: 'Números 1-10', color: 'bg-[#AB47BC]' },
+            { id: 'animales', title: 'Granja Sonora', color: 'bg-[#6A1B9A]' },
+            { id: 'xilofono', title: 'Xilófono', color: 'bg-[#CE93D8]' },
+            { id: 'escondite', title: 'Peek-a-boo', color: 'bg-[#AB47BC]' },
+            { id: 'pintura', title: 'Pintura', color: 'bg-[#6A1B9A]' },
+            { id: 'formas', title: 'Formas', color: 'bg-[#CE93D8]' },
+            { id: 'colores', title: 'Colores', color: 'bg-[#AB47BC]' },
+            { id: 'cuerpo', title: 'Mi Cuerpo', color: 'bg-[#6A1B9A]' }
         ];
 
         const menu = document.getElementById('main-menu');
 
         games.forEach(game => {
             const card = document.createElement('div');
-            card.className = `${game.color} game-card h-48 rounded-[3.5rem] shadow-xl flex flex-col items-center justify-center text-white p-4`;
+            card.className = `${game.color} game-card h-44 rounded-[3rem] shadow-lg flex flex-col items-center justify-end p-6 text-white`;
             card.innerHTML = `
-                <img src="assets/images/${game.img}" class="w-24 h-24 mb-4 object-contain" onerror="this.src='https://via.placeholder.com/100?text=Icon'">
-                <span class="font-bold text-center text-xs uppercase tracking-tighter">${game.title}</span>
+                <span class="font-bold text-center text-[11px] uppercase tracking-widest leading-tight">${game.title}</span>
             `;
             card.onclick = () => openGame(game);
             menu.appendChild(card);
@@ -85,18 +82,17 @@
 
         function openGame(game) {
             const overlay = document.getElementById('game-overlay');
-            const titleHeader = document.getElementById('game-title-header');
             const content = document.getElementById('game-content');
             
-            titleHeader.innerText = game.title;
             overlay.classList.remove('hidden');
             overlay.classList.add('flex');
-            
+            document.body.style.overflow = 'hidden';
+
             content.innerHTML = `
-                <div class="bg-white p-12 rounded-[5rem] shadow-2xl flex flex-col items-center border-8 border-purple-50 w-full animate-bounce-short">
-                    <img src="assets/images/${game.img}" class="w-48 h-48 mb-8">
-                    <button class="bg-[#6A1B9A] text-white text-2xl font-bold px-16 py-6 rounded-full shadow-lg active:scale-95 transition-all uppercase">
-                        ¡JUGAR!
+                <div class="bg-white p-10 rounded-[4rem] shadow-2xl flex flex-col items-center border-4 border-purple-50 w-full animate-pop">
+                    <h2 class="text-3xl font-bold text-[#6A1B9A] mb-10">${game.title}</h2>
+                    <button class="bg-[#6A1B9A] text-white text-xl font-bold px-12 py-5 rounded-full shadow-xl active:scale-95">
+                        ¡COMENZAR!
                     </button>
                 </div>
             `;
@@ -106,6 +102,7 @@
             const overlay = document.getElementById('game-overlay');
             overlay.classList.add('hidden');
             overlay.classList.remove('flex');
+            document.body.style.overflow = 'auto';
         }
     </script>
 </body>
