@@ -3,133 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="manifest.json">
     <title>Bambina - Suite Educativa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bambina-purple: #6A1B9A;
-            --bambina-lila: #F3E5F5;
-            --bambina-accent: #AB47BC;
-        }
-        body { 
-            font-family: 'Quicksand', sans-serif; 
-            background-color: var(--bambina-lila);
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .game-card { 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-bottom: 6px solid rgba(0,0,0,0.1);
-        }
-        .game-card:active { 
-            transform: scale(0.92); 
-            border-bottom-width: 2px;
-            margin-top: 4px;
-        }
-        .animate-pop { animation: pop 0.3s ease-out; }
-        @keyframes pop {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        :root { --b-purple: #6A1B9A; --b-lila: #F3E5F5; }
+        body { font-family: 'Quicksand', sans-serif; background-color: var(--b-lila); user-select: none; }
+        .game-card { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .game-card:active { transform: scale(0.9); }
+        .item-choice { transition: transform 0.2s; border-radius: 2rem; }
+        .item-choice:active { transform: scale(0.95); background-color: #E1BEE7; }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-    <header class="p-8 text-center bg-white/50 backdrop-blur-sm sticky top-0 z-10 border-b border-purple-100">
+    <header class="p-8 text-center bg-white/40 border-b border-purple-100">
         <h1 class="text-5xl font-bold text-[#6A1B9A]">Bambina</h1>
-        <p class="text-[#AB47BC] font-bold text-sm uppercase tracking-widest mt-1">Estimulación Temprana</p>
+        <p class="text-[#AB47BC] font-bold text-xs uppercase tracking-[0.2em]">Suite Educativa</p>
     </header>
 
-    <main id="main-menu" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 p-6 pb-20">
+    <main id="main-menu" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 p-6">
         </main>
 
-    <div id="game-overlay" class="fixed inset-0 bg-[#F3E5F5] hidden flex-col items-center z-50 p-6 overflow-y-auto">
-        <div class="w-full flex justify-between items-center mb-10">
-            <button onclick="closeGame()" class="bg-white/80 p-4 rounded-full shadow-lg text-[#6A1B9A] font-bold text-2xl active:scale-90 transition-all">✕</button>
-            <div id="game-title-header" class="text-[#6A1B9A] font-bold text-xl uppercase"></div>
-            <div class="w-12"></div> </div>
-
-        <div id="game-content" class="w-full max-w-lg flex-grow flex flex-col items-center justify-center animate-pop">
+    <div id="game-overlay" class="fixed inset-0 bg-[#F3E5F5] hidden flex-col z-50 overflow-y-auto">
+        <div class="p-6 flex justify-between items-center sticky top-0 bg-[#F3E5F5]/90 backdrop-blur">
+            <button onclick="closeGame()" class="bg-white p-4 rounded-full shadow-md text-[#6A1B9A] text-2xl font-bold">✕</button>
+            <h2 id="game-title" class="text-[#6A1B9A] font-bold text-2xl uppercase"></h2>
+            <div class="w-12"></div>
+        </div>
+        
+        <div id="game-selection" class="grid grid-cols-2 gap-4 p-6 w-full max-w-4xl mx-auto">
             </div>
     </div>
 
     <script>
-        // Configuración de los 15 juegos basada en el plan estratégico
-        const games = [
-            { id: 'numeros', title: 'Números 1-10', img: 'game-numeros.png', color: 'bg-[#AB47BC]', sound: 'success.mp3' },
-            { id: 'animales', title: 'Granja Sonora', img: 'game-animales.png', color: 'bg-[#6A1B9A]', sound: 'perro.mp3' },
-            { id: 'xilofono', title: 'Xilófono', img: 'game-xilofono.png', color: 'bg-[#CE93D8]', sound: 'note-c.mp3' },
-            { id: 'escondite', title: 'Peek-a-boo', img: 'game-escondite.png', color: 'bg-[#AB47BC]', sound: 'laugh.mp3' },
-            { id: 'pintura', title: 'Pintura', img: 'game-pintura.png', color: 'bg-[#6A1B9A]', sound: 'brush.mp3' },
-            { id: 'formas', title: 'Formas', img: 'game-formas.png', color: 'bg-[#CE93D8]', sound: 'circle.mp3' },
-            { id: 'colores', title: 'Colores', img: 'game-colores.png', color: 'bg-[#AB47BC]', sound: 'color.mp3' },
-            { id: 'cuerpo', title: 'Mi Cuerpo', img: 'game-cuerpo.png', color: 'bg-[#6A1B9A]', sound: 'eyes.mp3' },
-            { id: 'vehiculos', title: 'Vehículos', img: 'game-vehiculos.png', color: 'bg-[#CE93D8]', sound: 'train.mp3' },
-            { id: 'frutas', title: 'Frutas', img: 'game-frutas.png', color: 'bg-[#AB47BC]', sound: 'apple.mp3' },
-            { id: 'emociones', title: 'Emociones', img: 'game-emociones.png', color: 'bg-[#6A1B9A]', sound: 'happy.mp3' },
-            { id: 'habitos', title: 'Hábitos', img: 'game-habitos.png', color: 'bg-[#CE93D8]', sound: 'water.mp3' },
-            { id: 'clima', title: 'El Clima', img: 'game-clima.png', color: 'bg-[#AB47BC]', sound: 'rain.mp3' },
-            { id: 'ropa', title: 'Armario', img: 'game-ropa.png', color: 'bg-[#6A1B9A]', sound: 'clothes.mp3' },
-            { id: 'sueno', title: 'Sueño', img: 'game-sueno.png', color: 'bg-[#CE93D8]', sound: 'lullaby.mp3' }
+        const categories = [
+            { id: 'animales', title: 'Granja Sonora', icon: '🐶', items: [
+                { name: 'Perro', img: 'perro.png', sound: 'perro.mp3' },
+                { name: 'Gato', img: 'gato.png', sound: 'gato.mp3' },
+                { name: 'Vaca', img: 'vaca.png', sound: 'vaca.mp3' },
+                { name: 'Pato', img: 'pato.png', sound: 'pato.mp3' }
+            ], color: 'bg-[#6A1B9A]' },
+            { id: 'numeros', title: 'Números 1-10', icon: '1️⃣', items: [
+                { name: 'Uno', img: 'n1.png', sound: 'uno.mp3' },
+                { name: 'Dos', img: 'n2.png', sound: 'dos.mp3' }
+            ], color: 'bg-[#AB47BC]' },
+            // ... agregar las otras 13 categorías siguiendo esta estructura
         ];
 
         const menu = document.getElementById('main-menu');
         const overlay = document.getElementById('game-overlay');
-        const content = document.getElementById('game-content');
-        const titleHeader = document.getElementById('game-title-header');
+        const selectionGrid = document.getElementById('game-selection');
 
-        // Función para reproducir sonidos reales
-        function playAudio(filename) {
-            const audio = new Audio(`assets/audio/${filename}`);
-            audio.play().catch(e => console.log("Carga archivos mp3 para probar audio real."));
+        function renderMenu() {
+            categories.forEach(cat => {
+                const card = document.createElement('div');
+                card.className = `${cat.color} game-card p-8 rounded-[2.5rem] shadow-xl flex flex-col items-center text-white cursor-pointer`;
+                card.innerHTML = `<span class="text-6xl mb-4">${cat.icon}</span><span class="font-bold text-sm uppercase">${cat.title}</span>`;
+                card.onclick = () => openCategory(cat);
+                menu.appendChild(card);
+            });
         }
 
-        // Renderizar Menú Principal
-        games.forEach(game => {
-            const card = document.createElement('div');
-            card.className = `${game.color} game-card p-6 rounded-[3rem] shadow-xl flex flex-col items-center justify-center cursor-pointer text-white`;
-            card.innerHTML = `
-                <img src="assets/images/${game.img}" alt="${game.title}" class="w-24 h-24 mb-4 object-contain" onerror="this.src='https://via.placeholder.com/100?text=${game.title}'">
-                <span class="font-bold text-center text-sm leading-tight uppercase tracking-wide">${game.title}</span>
-            `;
-            card.onclick = () => openGame(game);
-            menu.appendChild(card);
-        });
+        function openCategory(cat) {
+            document.getElementById('game-title').innerText = cat.title;
+            selectionGrid.innerHTML = '';
+            
+            cat.items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = `bg-white p-4 item-choice shadow-lg flex flex-col items-center border-4 border-transparent active:border-[#6A1B9A]`;
+                div.innerHTML = `
+                    <img src="assets/images/${item.img}" class="w-32 h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=${item.name}'">
+                    <p class="font-bold text-[#6A1B9A]">${item.name}</p>
+                `;
+                div.onclick = () => {
+                    new Audio(`assets/audio/${item.sound}`).play();
+                    // Efecto visual de rebote al tocar
+                    div.style.transform = "scale(1.1)";
+                    setTimeout(() => div.style.transform = "scale(1)", 200);
+                };
+                selectionGrid.appendChild(div);
+            });
 
-        function openGame(game) {
-            titleHeader.innerText = game.title;
             overlay.classList.remove('hidden');
             overlay.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-
-            // Generador de contenido para pruebas funcionales
-            content.innerHTML = `
-                <div class="bg-white p-10 rounded-[4rem] shadow-2xl flex flex-col items-center border-8 border-purple-100">
-                    <img src="assets/images/${game.img}" class="w-48 h-48 mb-8 animate-bounce" onerror="this.src='https://via.placeholder.com/200?text=${game.title}'">
-                    <h2 class="text-3xl font-bold text-[#6A1B9A] mb-2 text-center">${game.title}</h2>
-                    <p class="text-purple-400 mb-8 font-medium">Toque para interactuar</p>
-                    <button id="play-btn" class="bg-[#6A1B9A] hover:bg-[#AB47BC] text-white text-2xl font-bold px-12 py-5 rounded-full shadow-lg active:scale-95 transition-all uppercase tracking-widest">
-                        ¡JUGAR!
-                    </button>
-                    <p class="mt-4 text-xs text-gray-300">Ruta: assets/audio/${game.sound}</p>
-                </div>
-            `;
-
-            document.getElementById('play-btn').onclick = () => {
-                playAudio(game.sound);
-                // Efecto visual al presionar
-                document.getElementById('play-btn').innerText = "¡REPRODUCIENDO!";
-                setTimeout(() => { document.getElementById('play-btn').innerText = "¡JUGAR!"; }, 1000);
-            };
         }
 
         function closeGame() {
             overlay.classList.add('hidden');
             overlay.classList.remove('flex');
-            document.body.style.overflow = 'auto';
-            content.innerHTML = '';
         }
+
+        renderMenu();
     </script>
 </body>
 </html>
