@@ -1,0 +1,16 @@
+{
+  "name": "Bambina - Suite Educativa",
+  "short_name": "Bambina",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#F3E5F5",
+  "theme_color": "#6A1B9A",
+  "icons": [
+    {
+      "src": "assets/images/logo-bambina.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
