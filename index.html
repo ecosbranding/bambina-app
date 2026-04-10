@@ -7,20 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Quicksand', sans-serif; background-color: #F3E5F5; margin: 0; overflow-x: hidden; }
+        body { font-family: 'Quicksand', sans-serif; background-color: #F3E5F5; margin: 0; overflow-x: hidden; user-select: none; }
         
-        /* HEADER COMPACTO */
-        .main-header { padding: 10px 0; text-align: center; }
-        .main-logo { max-width: 240px; margin: 0 auto; display: block; }
-        .slogan { color: #AB47BC; font-size: 1rem; font-weight: 700; font-style: italic; margin-top: 5px; }
+        /* HEADER MENÚ PRINCIPAL */
+        .main-header { padding: 15px 0; text-align: center; background: white; }
+        .main-logo { max-width: 220px; margin: 0 auto; display: block; }
+        .slogan { color: #AB47BC; font-size: 1rem; font-weight: 700; font-style: italic; margin-top: 8px; }
 
         /* GRID DE MENÚ */
-        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
+        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; padding: 20px; }
         .card { 
-            height: 160px; border-radius: 40px; display: flex; align-items: flex-end; 
+            height: 160px; border-radius: 45px; display: flex; align-items: flex-end; 
             justify-content: center; padding-bottom: 25px; color: white; 
-            font-size: 10px; font-weight: bold; text-transform: uppercase;
-            box-shadow: 0 8px 20px rgba(106, 27, 154, 0.1); 
+            font-size: 11px; font-weight: bold; text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(106, 27, 154, 0.1); 
         }
 
         /* OVERLAY DE JUEGO */
@@ -30,20 +30,25 @@
         }
         .overlay-header { 
             padding: 10px 20px; display: flex; align-items: center; 
-            justify-content: space-between; background: white; border-bottom: 1px solid #E1BEE7; 
+            justify-content: space-between; background: white; 
         }
         .btn-close { 
-            background: #F3E5F5; width: 40px; height: 40px; border-radius: 50%; 
+            background: #F3E5F5; width: 45px; height: 45px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 18px; color: #6A1B9A; cursor: pointer;
+            font-size: 20px; color: #6A1B9A; cursor: pointer;
         }
 
-        /* ESTILO PARA ANIMALES */
+        /* ICONO SOLO (Arriba a la derecha) */
+        .mini-icon { height: 35px; width: auto; }
+
+        /* ESTILO CARDS ANIMALES (COMO EN TU CAPTURA) */
         .animal-card {
-            background: white; border-radius: 30px; padding: 15px;
-            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: white; border-radius: 35px; padding: 20px;
+            text-align: center; box-shadow: 0 8px 15px rgba(0,0,0,0.04);
+            transition: transform 0.2s;
         }
-        .animal-img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; }
+        .animal-card:active { transform: scale(0.95); }
+        .animal-img { width: 100%; height: auto; border-radius: 20px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
@@ -54,15 +59,17 @@
     </header>
 
     <div class="game-grid">
-        <div class="card" style="background-color: #AB47BC;" onclick="openGame('Granja Sonora')">Granja Sonora</div>
-        <div class="card" style="background-color: #6A1B9A;" onclick="openGame('Números 1-10')">Números 1-10</div>
-        </div>
+        <div class="card" style="background-color: #6A1B9A;" onclick="openGame('Granja Sonora')">Granja Sonora</div>
+        <div class="card" style="background-color: #AB47BC;" onclick="openGame('Números 1-10')">Números 1-10</div>
+        <div class="card" style="background-color: #CE93D8;" onclick="openGame('Xilófono')">Xilófono</div>
+        <div class="card" style="background-color: #6A1B9A;" onclick="openGame('Peek-a-boo')">Peek-a-boo</div>
+    </div>
 
     <div id="game-overlay">
         <div class="overlay-header">
             <div class="btn-close" onclick="closeGame()">✕</div>
-            <span id="game-title" style="color: #6A1B9A; font-weight: bold;"></span>
-            <img src="1000778888.png" style="height: 25px;">
+            <span id="game-title" style="color: #6A1B9A; font-weight: bold; font-size: 1.2rem;"></span>
+            <img src="1000776005.png" class="mini-icon">
         </div>
         <div id="game-content" style="flex-grow: 1; padding: 20px; display: flex; justify-content: center; align-items: center;">
             </div>
@@ -85,14 +92,14 @@
                 for (let animal in assets) {
                     html += `
                         <div class="animal-card" onclick="playSound('${animal}')">
-                            <img src="${assets[animal].img}" class="animal-img" onerror="this.src='https://via.placeholder.com/100?text=${animal}'">
-                            <p style="color: #6A1B9A; font-size: 14px;">${animal}</p>
+                            <img src="${assets[animal].img}" class="animal-img" onerror="this.src='https://via.placeholder.com/150?text=${animal}'">
+                            <p style="color: #6A1B9A; font-weight: bold; font-size: 16px;">${animal}</p>
                         </div>`;
                 }
                 html += '</div>';
                 content.innerHTML = html;
             } else {
-                content.innerHTML = '<div class="animal-card"><h3>Próximamente...</h3></div>';
+                content.innerHTML = '<div class="animal-card"><p style="color: #AB47BC;">Pronto más diversión...</p></div>';
             }
 
             document.getElementById('game-overlay').style.display = 'flex';
